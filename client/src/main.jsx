@@ -7,6 +7,7 @@ import {
 import App from "./App";
 import Record from "./components/ModifyRecord";
 import RecordList from "./components/RecordList";
+import NutritionAPI from "./components/NutritionAPI";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -14,30 +15,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
-      {
-        path: "/",
-        element: <RecordList />,
-      },
-    ],
-  },
-  {
-    path: "/edit/:id",
-    element: <App />,
-    children: [
-      {
-        path: "/edit/:id",
-        element: <Record />,
-      },
-    ],
-  },
-  {
-    path: "/create",
-    element: <App />,
-    children: [
-      {
-        path: "/create",
-        element: <Record />,
-      },
+      { path: "/", element: <RecordList /> },
+      { path: "/nutrition", element: <NutritionAPI /> },
+      { path: "/create", element: <Record /> },
+      { path: "/edit/:id", element: <Record /> },
     ],
   },
 ]);
