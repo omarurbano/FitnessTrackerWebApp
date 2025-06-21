@@ -9,6 +9,8 @@ import Record from "./components/ModifyRecord";
 import RecordList from "./components/RecordList";
 import NutritionAPI from "./components/NutritionAPI";
 import "./index.css";
+import Homepage from "./pages/Homepage";
+import Navbar from "./components/Navbar";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +22,17 @@ const router = createBrowserRouter([
       { path: "/create", element: <Record /> },
       { path: "/edit/:id", element: <Record /> },
     ],
+  },
+  {
+    path: "/home",
+    element: <App />,
+    children:[
+      {
+        path: "/home",
+        element: <Homepage/>,
+      }
+    ]
+    
   },
 ]);
 
