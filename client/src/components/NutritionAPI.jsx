@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import NutritionLabel from "./NutritionLabel";
 
 export default function NutritionAPI() {
     const [query, setQuery] = useState("");
@@ -71,14 +72,55 @@ export default function NutritionAPI() {
     const totals = results.reduce(
         (acc, food) => {
             acc.calories += food.nf_calories || 0;
+            acc.totalFat += food.nf_total_fat || 0;
+            acc.saturatedFat += food.nf_saturated_fat || 0;
+            acc.transFat += food.nf_trans_fatty_acid || 0;
+            acc.cholesterol += food.nf_cholesterol || 0;
+            acc.sodium += food.nf_sodium || 0;
+            acc.totalCarbohydrate += food.nf_total_carbohydrate || 0;
+            acc.dietaryFiber += food.nf_dietary_fiber || 0;
+            acc.sugars += food.nf_sugars || 0;
+            acc.protein += food.nf_protein || 0;
             return acc;
         },
-        { calories: 0 }
+        {
+            calories: 0,
+            totalFat: 0,
+            saturatedFat: 0,
+            transFat: 0,
+            cholesterol: 0,
+            sodium: 0,
+            totalCarbohydrate: 0,
+            dietaryFiber: 0,
+            sugars: 0,
+            protein: 0,
+        }
     );
 
+    const nutritionData = {
+        servingSize: `${results.length} item(s)`,
+        servingsPerContainer: 1,
+        calories: Math.round(totals.calories) || 0,
+        totalFat: Math.round(totals.totalFat) || 0,
+        saturatedFat: Math.round(totals.saturatedFat) || 0,
+        transFat: Math.round(totals.transFat) || 0,
+        cholesterol: Math.round(totals.cholesterol) || 0,
+        sodium: Math.round(totals.sodium) || 0,
+        totalCarbohydrate: Math.round(totals.totalCarbohydrate) || 0,
+        dietaryFiber: Math.round(totals.dietaryFiber) || 0,
+        sugars: Math.round(totals.sugars) || 0,
+        protein: Math.round(totals.protein) || 0,
+        vitaminD: 0,
+        calcium: 0,
+        iron: 0,
+        potassium: 0,
+    };
+      
+    console.log(nutritionData)
     return (
         <div className="p-4">
             <h2 className="text-xl font-bold">Nutrition Lookup</h2>
+
             <input
                 className="border p-2 w-full my-2"
                 value={query}
@@ -125,13 +167,21 @@ export default function NutritionAPI() {
                     </table>
                 )}
             </div>
-
+            {/* for some reason we need both of these IDK why but its just how it is */}
+            <div className="mt-8 p-4 border-t font-semibold">
+                <h3 className="text-lg mb-2">Total Nutrition</h3>
+                <div className="mt-4 max-w-md border border-black bg-white p-4 text-black">
+                    <NutritionLabel data={nutritionData} />
+                </div>
+            </div>
             {results.length >= 1 && (
-                <div className="mt-4 p-2 border-t font-semibold">
-                    <h3>Total Nutrition</h3>
-                    <p>Total Calories: {totals.calories.toFixed(1)}</p>
+                <div className="mt-8 p-4 border-t font-semibold">
+                    <h3 className="text-lg mb-2">Total Nutrition</h3>
+                    <div className="mt-4 max-w-md border border-black bg-white p-4 text-black">
+                        <NutritionLabel data={nutritionData} />
+                    </div>
                 </div>
             )}
         </div>
-    );
+    );    
 }
