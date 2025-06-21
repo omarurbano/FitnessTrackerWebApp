@@ -11,7 +11,7 @@ export default function NutritionAPI() {
     const APP_ID = "5c311b3a";
     const APP_KEY = "a1b49a0a6a84533092f2f6bbf7f9224e";
 
-    // Food group ID to name mapping
+    // Food group ID to name mapping - this is way off, i cant find docs on it, i emailed nutritionix support about it
     const foodGroupMap = {
         1: "Dairy and Egg Products",
         2: "Spices and Herbs",
@@ -63,7 +63,7 @@ export default function NutritionAPI() {
             setRenderKey(prev => prev + 1);
             setError("");
         } catch (err) {
-            setError("Something went wrong.");
+            setError("Something went wrong. The input is likely empty or contains typos.");
             console.error(err);
         }
     };
@@ -118,70 +118,75 @@ export default function NutritionAPI() {
       
     console.log(nutritionData)
     return (
-        <div className="p-4">
-            <h2 className="text-xl font-bold">Nutrition Lookup</h2>
+        <div className="p-4 max-w-5xl mx-auto">
+            <h2 className="text-2xl font-bold">Nutrition Lookup</h2>
 
-            <input
-                className="border p-2 w-full my-2"
+            <textarea
+                className="resize-y overflow-auto w-2/3 mt-4 flex gap-6 p-2 border rounded text-xl"
+                style={{ minHeight: "100px", whiteSpace: "pre-wrap" }}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="e.g. 1 apple and 2 eggs"
+                placeholder="e.g. 1 apple, 2 eggs, and a tbsp of yogurt"
             />
             <button
-                className="bg-blue-600 text-white px-4 py-2 rounded"
+                className="bg-blue-600 text-white px-4 py-2 rounded mt-2 flex gap-2 items-start"
                 onClick={handleSearch}
             >
-                Search
+                Submit
             </button>
-
+            
             {error && <p className="text-red-500 mt-2">{error}</p>}
-            <p>Total results: {results.length}</p>
 
-            <div key={renderKey}>
+            {/* FLEX CONTAINER: TABLE + LABEL SIDE BY SIDE */}
+            <div key={renderKey} className="mt-4 flex gap-6 items-start">
                 {results.length > 0 && (
-                    <table className="mt-4 w-full border-collapse">
-                        <thead>
-                            <tr className="bg-gray-100">
-                                <th className="border p-2">Qty</th>
-                                <th className="border p-2">Unit</th>
-                                <th className="border p-2">Food</th>
-                                <th className="border p-2">Calories</th>
-                                <th className="border p-2">Weight (g)</th>
-                                <th className="border p-2">Food Group</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {results.map((food, i) => (
-                                <tr key={`${food.food_name}-${i}`} className="border">
-                                    <td className="border p-2">{food.serving_qty ?? 'N/A'}</td>
-                                    <td className="border p-2">{food.serving_unit ?? 'N/A'}</td>
-                                    <td className="border p-2">{food.food_name}</td>
-                                    <td className="border p-2">{food.nf_calories ?? 'N/A'}</td>
-                                    <td className="border p-2">{food.serving_weight_grams ?? 'N/A'}</td>
-                                    <td className="border p-2">
-                                        {getFoodGroupName(food.tags?.food_group)}
-                                    </td>
+                    <>
+                        <table className="border-collapse border w-2/3">
+                            <thead>
+                                <tr className="bg-gray-100">
+                                    <th className="border p-2">Image</th>
+                                    <th className="border p-2">Qty</th>
+                                    <th className="border p-2">Unit</th>
+                                    <th className="border p-2">Food</th>
+                                    <th className="border p-2">Calories</th>
+                                    <th className="border p-2">Weight (g)</th>
+                                    <th className="border p-2">Food Group</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {results.map((food, i) => (
+                                    <tr key={`${food.food_name}-${i}`} className="border">
+                                        <td className="border p-2 text-center">
+                                            {food.photo?.thumb ? (
+                                                <img
+                                                    src={food.photo.thumb}
+                                                    alt={food.food_name}
+                                                    className="w-12 h-12 object-cover mx-auto"
+                                                />
+                                            ) : (
+                                                "N/A"
+                                            )}
+                                        </td>
+                                        <td className="border p-2">{food.serving_qty ?? "N/A"}</td>
+                                        <td className="border p-2">{food.serving_unit ?? "N/A"}</td>
+                                        <td className="border p-2">{food.food_name}</td>
+                                        <td className="border p-2">{food.nf_calories ?? "N/A"}</td>
+                                        <td className="border p-2">{food.serving_weight_grams ?? "N/A"}</td>
+                                        <td className="border p-2">
+                                            {getFoodGroupName(food.tags?.food_group)}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+
+                        <div className="w-1/3 border border-black bg-white p-4 text-black">
+                            <NutritionLabel data={nutritionData} />
+                        </div>
+                    </>
                 )}
             </div>
-            {/* for some reason we need both of these IDK why but its just how it is */}
-            <div className="mt-8 p-4 border-t font-semibold">
-                <h3 className="text-lg mb-2">Total Nutrition</h3>
-                <div className="mt-4 max-w-md border border-black bg-white p-4 text-black">
-                    <NutritionLabel data={nutritionData} />
-                </div>
-            </div>
-            {results.length >= 1 && (
-                <div className="mt-8 p-4 border-t font-semibold">
-                    <h3 className="text-lg mb-2">Total Nutrition</h3>
-                    <div className="mt-4 max-w-md border border-black bg-white p-4 text-black">
-                        <NutritionLabel data={nutritionData} />
-                    </div>
-                </div>
-            )}
         </div>
-    );    
+    );
+      
 }
