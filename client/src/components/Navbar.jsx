@@ -6,7 +6,7 @@ export default function Navbar() {
             <nav className="flex justify-between items-center mb-6">
                 <NavLink to="/">
 
-                    <img alt="MyFitnessTracker" className="h-10 inline" src="/src/assets/MyFitnessTracker.png"></img>
+                    <img alt="MyFitnessTracker" className="h-10 inline" src="/src/assets/CoreTrackLogo.png"></img>
                 </NavLink>
 
                 <div className="flex gap-2">
