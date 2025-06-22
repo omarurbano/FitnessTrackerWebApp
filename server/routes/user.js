@@ -1,6 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import { client } from '../db/connection.js';
+import { sendVerificationEmail, verifyEmail } from '../controls/emailVerification.js';
 
 const router = express.Router();
 const usersDb = client.db('users');
@@ -37,14 +38,13 @@ router.post('/signup', async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = { name, email, password: hashedPassword };
-
-        const result = await collection.insertOne(newUser);
+        const newUser = { name, email, password: hashedPassword,verified: false };
+        await collection.insertOne(newUser);
+        await sendVerificationEmail({ email });
 
         res.json({
             status: "SUCCESS",
-            message: "Signup successful!",
-            data: result,
+            message: "Signup successful! Please check your email for verification.",
         });
 
     } catch (err) {
@@ -85,6 +85,16 @@ router.post('/signin', async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).json({ status: "FAILED", message: "Error occurred during sign-in", validUser: false });
+    }
+});
+
+router.post('/verify-otp', async (req, res) => {
+    try {
+        const { email, otp } = req.body;
+        await verifyEmail({ email, otp });
+        res.json({ email, verified: true });
+    } catch (err) {
+        res.status(400).json({ message: err.message });
     }
 });
 
