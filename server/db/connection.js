@@ -23,4 +23,5 @@ try {
 
 let db = client.db("employees");
 
+export { client };
 export default db;
