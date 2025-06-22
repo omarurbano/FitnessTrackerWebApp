@@ -137,7 +137,6 @@ export default function NutritionAPI() {
             
             {error && <p className="text-red-500 mt-2">{error}</p>}
 
-            {/* FLEX CONTAINER: TABLE + LABEL SIDE BY SIDE */}
             <div key={renderKey} className="mt-4 flex gap-6 items-start">
                 {results.length > 0 && (
                     <>
@@ -180,7 +179,7 @@ export default function NutritionAPI() {
                             </tbody>
                         </table>
 
-                        <div className="w-1/3 border border-black bg-white p-4 text-black">
+                        <div className="w-1/3 -mt-40">
                             <NutritionLabel data={nutritionData} />
                         </div>
                     </>
