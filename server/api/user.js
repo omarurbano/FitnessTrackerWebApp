@@ -76,3 +76,60 @@ router.post('/signup', (req,res) =>{
         })
     }
 })
+
+router.post('/signin', (req,res) =>{
+    let { email, password } = req.body;
+    email = email.trim();
+    password = password.trim();
+
+    if(email =="" || password == ""){
+        res.json({
+            status: "FAILED",
+            message:"No entry provided!",
+            validUser: false
+        })
+    }else {
+        User.find({email})
+        .then(data => {
+            if (data.length){
+                const hashedPassword = data[0].password;
+                bcrypt.compare(password, hashedPassword).then(result => {
+                    if(result){//Checks if password matches saved user password
+                        res.json({
+                            status: "SUCCESS",
+                            message: "Signed in successfully!",
+                            data: data
+                        })
+                    }else {
+                        res.json({
+                            status: "FAILED",
+                            message: "Incorrect password",
+                            validUser: false
+                        })
+                    }
+                })
+                .catch(err => {
+                    res.json({
+                        status: "FAILED",
+                        message: "Error occured while validating password",
+                        validUser: false
+                    })
+                })
+            }else {
+                res.json({
+                    status: "FAILED",
+                    message: "invalid credentials",
+                    validUser: false
+                })
+            }
+        }).catch(err => {
+            res.json({
+                status: "FAILED",
+                message: "Error occured while checking for existing user",
+                validUser: false
+            })
+        })
+    }
+})
+
+module.exports = router;
