@@ -12,29 +12,22 @@ import ExerciseAPI from "./components/ExerciseAPI"
 import "./index.css";
 import Homepage from "./pages/Homepage";
 import Navbar from "./components/Navbar";
+import ContactUs from "./pages/ContactUs";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-      { path: "/", element: <RecordList /> },
+      // { path: "/", element: <RecordList /> },
+      { path: "/", element: <Homepage /> },
+      { path: "/home", element: <Homepage /> },
       { path: "/nutrition", element: <NutritionAPI /> },
       { path: "/exercise", element: <ExerciseAPI /> },
       { path: "/create", element: <Record /> },
       { path: "/edit/:id", element: <Record /> },
+      { path: "/contactus", element: <ContactUs /> },
     ],
-  },
-  {
-    path: "/home",
-    element: <App />,
-    children:[
-      {
-        path: "/home",
-        element: <Homepage/>,
-      }
-    ]
-    
   },
 ]);
 
