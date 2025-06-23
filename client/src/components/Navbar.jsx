@@ -6,7 +6,7 @@ export default function Navbar() {
             <nav className="flex justify-between items-center mb-6">
                 <NavLink to="/">
 
-                    <img alt="MyFitnessTracker" className="h-10 inline" src="/src/assets/MyFitnessTracker.png"></img>
+                    <img alt="MyFitnessTracker" className="h-10 inline" src="/src/assets/CoreTrackLogo.png"></img>
                 </NavLink>
 
                 <div className="flex gap-2">
@@ -19,6 +19,13 @@ export default function Navbar() {
                         to="/nutrition"
                     >
                         Nutrition Lookup
+                    </NavLink>
+
+                    <NavLink
+                        className="inline-flex items-center justify-center whitespace-nowrap text-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-slate-100 h-9 rounded-md px-3"
+                        to="/exercise"
+                    >
+                        Exercise Lookup
                     </NavLink>
                 </div>
             </nav>
