@@ -1,4 +1,6 @@
 import { NavLink } from "react-router-dom";
+import FAQ from "../components/Faq";
+
 
 export default function Homepage() {
     return (
@@ -86,6 +88,18 @@ export default function Homepage() {
             </div>
 
         </div>
+
+        {/* FAQ's */}
+        <div className="mb-10 mt-10">
+            <p className="text-6xl text-green-800/100 text-center self-center font-bold">Frequently Asked Questions</p>
+        </div>
+
+        <div>
+            <FAQ />
+        </div>
+
+
+        
       </div>
     );
   }
