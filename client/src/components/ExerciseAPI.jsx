@@ -11,10 +11,14 @@ export default function ExerciseAPI() {
 
     const handleSearch = async () => {
         try {
+            const inputCount = query
+                .split(",")
+                .map(item => item.trim())
+                .filter(item => item.length > 0).length;
+
             const response = await axios.post(
                 "https://trackapi.nutritionix.com/v2/natural/exercise",
                 {
-                    //placeholder
                     query,
                     gender: "male",
                     weight_kg: 70,
@@ -33,12 +37,21 @@ export default function ExerciseAPI() {
 
             const exercises = response.data.exercises ?? [];
 
+            //warn the user if they got an unexpected amount of rows
+            if (inputCount !== exercises.length) {
+                setError(
+                    `Warning: You entered ${inputCount} item(s), but ${exercises.length} exercise(s) were detected. Check your format.`
+                );
+            } else {
+                setError(""); // clear previous errors
+            }
+
             console.log("Exercises:", exercises);
             setResults(exercises);
-            setError("");
         } catch (err) {
             console.error(err);
             setError("Error fetching data. Please check your input.");
+            setResults([]);
         }
     };
 
@@ -56,7 +69,7 @@ export default function ExerciseAPI() {
                 style={{ minHeight: "100px", whiteSpace: "pre-wrap" }}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="e.g. 30 minutes of yoga, 20 jumping jacks, 5 mile jog"
+                placeholder="e.g. 30 minutes of yoga, 2 minutes of jumping jacks, 5 mile jog"
             />
 
             <button
@@ -96,7 +109,6 @@ export default function ExerciseAPI() {
                     </div>
                 </div>
             )}
-        </div>
-
-    );
+        </div>    
+       );
 }
