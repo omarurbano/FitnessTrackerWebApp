@@ -1,72 +1,135 @@
-import { NavLink } from "react-router-dom";
+import {useState} from "react"
 
 export default function ContactUs() {
+    
+    const [sName, setName] = useState('')
+    const [sEmail, setEmail] = useState('')
+    const [sOption, setOption] = useState('')
+    const [sDescription, setDescription] = useState('')
+    const [error, setError] = useState(null)
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const csDetails = {sName, sEmail, sOption, sDescription}
+        const response = await fetch('http://localhost:5050/contactus', {
+            method: 'POST',
+            body: JSON.stringify(csDetails),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const json = await response.json();
+
+        if(!response.ok){
+            setError(json.error);
+        }
+        if(response.ok){
+            setName('');
+            setEmail('');
+            setDescription('');
+            setOption('');
+            setError(null);
+            console.log('new submission added', json);
+            
+        }
+    }
+
     return (
-        // Container box with green background
         <div className="container mx-15 px-15 shadow-xl">
             <div className="mb-10">
                 <p className="text-4xl text-green-800/100 text-center self-center font-bold">Contact Us</p>
             </div>
             
             <div className="flex justify-center">
-                <form className="w-full max-w-lg">
+                <form className="w-full max-w-lg" onSubmit={handleSubmit}>
                     {/* Name field */}
                     <div className="md:flex md:items-center mb-6">
                         <div className="md:w-1/3">
-                        <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">
-                            Full Name
-                        </label>
+                            <label 
+                                className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" 
+                                htmlFor="inline-full-name">
+                                Full Name
+                            </label>
                         </div>
                         <div className="md:w-2/3">
-                        <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-800" id="inline-full-name" type="text" value="Butch Cougar"/>
+                            <input 
+                                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-800" 
+                                id="inline-full-name" 
+                                type="text"
+                                placeholder="Butch Cougar"
+                                name="fullName"
+                                onChange={(e) => setName(e.target.value)}
+                                value={sName}/>
                         </div>
                     </div>
 
                     {/* Email Field */}
                     <div className="md:flex md:items-center mb-6">
                         <div className="md:w-1/3">
-                        <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">
-                            Email
-                        </label>
+                            <label 
+                                className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" 
+                                htmlFor="inline-full-name">
+                                Email
+                            </label>
                         </div>
                         <div className="md:w-2/3">
-                        <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-800" id="inline-full-name" type="text" value="Email Address"/>
+                            <input 
+                                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-800" 
+                                id="inline-full-name" 
+                                type="text"
+                                name="Email"
+                                placeholder="Email Address"
+                                onChange={(e) => setEmail(e.target.value)}
+                                value={sEmail}/>
                         </div>
                     </div>
 
                     {/* Drop down options */}
                     <div className="md:flex md:items-end justify-end mb-10">
                         <div className="md:w-2/6">
-                            <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="block">
+                            <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="block">
                                 Options
                             </label>
                         </div>
-                        <select className="block appearance-none w-4/6 bg-gray-200 border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
-                            <option>Choose</option>
-                            <option>Question</option>
-                            <option>Account Issues</option>
-                            <option>Password Reset</option>
-                            <option>Other</option>
+                        <select 
+                            className="block appearance-none w-4/6 bg-gray-200 border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                            onChange={(e) => setOption(e.target.value)}
+                            value={sOption}>
+                            <option value="" disabled>Choose</option>
+                            <option value="Question">Question</option>
+                            <option value="Account Issues">Account Issues</option>
+                            <option value="Password Reset">Password Reset</option>
+                            <option value="Other">Other</option>
                         </select>
                     </div>
 
                     <div className="md:flex md:items-start justify-end mb-10">
                         <div className="md:w-2/6">
-                            <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="large-input">
+                            <label 
+                                className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
+                                htmlFor="large-input">
                                 Description
                             </label>
                         </div>
-                       
-                        <input type="text" id="large-input" className="block w-4/6 p-24 border border-gray-300 rounded-lg bg-gray-200 text-base focus:ring-green-800 focus:border-green-800"/>
-
-                        {/* <input type="text" id="large-input" class="block w-4/6 p-24 text-gray-800 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-green-800"/> */}
+                        <textarea
+                            id="large-input"
+                            name="description"
+                            placeholder="Description here:"
+                            className="block w-4/6 h-32 p-2 text-left bg-gray-200 border-2 border-gray-200 rounded text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-800"
+                            onChange={(e)=>setDescription(e.target.value)}
+                            value={sDescription}
+                        ></textarea>
                     </div>
 
                     {/* Send button */}
                     <div className="md:flex md:items-center mb-6">
                         <div className="md:w-1/3"/>
                         <div className="md:w-2/3">
-                            <button className="shadow bg-green-800 hover:bg-green-600 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+                            <button 
+                                className="shadow bg-green-800 hover:bg-green-600 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                                type="submit"
+                                id="submitBtn">
                                 Send
                             </button>
                         </div>
@@ -76,5 +139,6 @@ export default function ContactUs() {
             </div>
 
         </div>
+        
     );
   }
