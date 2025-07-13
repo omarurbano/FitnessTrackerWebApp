@@ -1,22 +1,31 @@
 import express from "express";
 import { client } from '../db/connection.js';
+import { ObjectId } from "mongodb";
 import { Timestamp } from "mongodb";
 
 const router = express.Router();
 const cDB = client.db('contactUsDB');         
 let collection = cDB.collection('submissions');
 
-// Get all submissions
+// Get all submissions in latest ones first, and only the ones that have not been resolved
 router.get('/', async (req, res) => {
     //let results = await collection.find({}).toArray();
-    let results = await collection.find({}).sort({createdAt: -1}).toArray();
+    let results = await collection.find({isResolved: false}).sort({createdAt: -1}).toArray();
+    //collection.find({isResolved: false})
     res.send(results).status(200);
 
 });
 
 //Get a single submission
-router.get('/:id', (req,res)=>{
-    res.json({mssg: 'Get a single submission'})
+router.get('/:id', async (req,res)=>{
+    
+    let query = { _id: new ObjectId(req.params.id) };
+    let result = await collection.findOne(query);
+    if(!result)
+    {
+        res.send("Not found").status(404);
+    }
+    res.send(result).status(200);
 });
 
 //Post a submission
@@ -46,14 +55,45 @@ router.post('/', async (req,res) => {
     }
 });
 
-//Delete a submission
-router.delete('/:id', (req,res)=>{
-    res.json({mssg: 'delete a  submission'})
+//Delete operation, but not actually deleting, just setting to resolve so it doesnt show in get
+router.delete('/:id', async (req,res)=>
+{
+    //res.json({mssg: 'update a submission'})
+    try {
+        const query = { _id: new ObjectId(req.params.id) };
+        const updates = {
+            $set: {
+                isResolved: true,
+                updatedAt: new Date() 
+            },
+        };
+        let result = await collection.updateOne(query, updates);
+        res.send(result).status(200);
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error updating record");
+    }
 });
 
-//update
-router.patch('/:id', (req,res)=>{
-    res.json({mssg: 'update a submission'})
+//We are only allowing the updates to occur on isResolved and updatedAt, everything else will remain the same
+router.patch('/:id', async (req,res)=>{
+    //res.json({mssg: 'update a submission'})
+    try {
+        const query = { _id: new ObjectId(req.params.id) };
+        const updates = {
+            $set: {
+                isResolved: true,
+                updatedAt: new Date() 
+            },
+        };
+        let result = await collection.updateOne(query, updates);
+        res.send(result).status(200);
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error updating record");
+    }
 });
 
 

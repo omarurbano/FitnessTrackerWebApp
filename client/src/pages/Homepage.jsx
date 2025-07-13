@@ -42,8 +42,8 @@ export default function Homepage() {
                     <p className="text-2xl font-bold">
                         Follow your progress every step of the way
                     </p> 
-                    <p>Input various workouts, including weight training</p>
-                    <p>,running and much more!</p>
+                    <p>Input various workouts, including weight training,</p>
+                    <p>running and much more!</p>
                 </text>
             </div>
 
