@@ -14,7 +14,7 @@ const Footer = () => {
                 </NavLink>
                 <div className="flex flex row items-center justify-center">
                     {/* <!-- Facebook --> */}
-                    <span class="[&>svg]:h-5 [&>svg]:w-5">
+                    <span className="[&>svg]:h-5 [&>svg]:w-5">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
@@ -26,7 +26,7 @@ const Footer = () => {
                     </span>
 
                     {/* <!-- TikTok --> */}
-                    <span class="[&>svg]:h-5 [&>svg]:w-5">
+                    <span className="[&>svg]:h-5 [&>svg]:w-5">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
@@ -38,7 +38,7 @@ const Footer = () => {
                     </span>
 
                     {/* <!-- Instagram --> */}
-                    <span class="[&>svg]:h-5 [&>svg]:w-5">
+                    <span className="[&>svg]:h-5 [&>svg]:w-5">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
@@ -50,7 +50,7 @@ const Footer = () => {
                     </span>
 
                     {/* <!-- Discord --> */}
-                    <span class="[&>svg]:h-5 [&>svg]:w-5">
+                    <span className="[&>svg]:h-5 [&>svg]:w-5">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
