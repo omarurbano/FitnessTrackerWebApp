@@ -5,7 +5,7 @@ export default function Modal({ open, onClose, children }) {
         // backdrop
         <div
             onClick={onClose}
-            className={`fixed inset-0 flex justify-center items-center transition-colors ${open ? "visible bg-black/20" : "invisible"}`}
+            className={`fixed inset-0 flex px-20 justify-center items-center transition-colors ${open ? "visible bg-black/20" : "invisible"}`}
         >
             <div
                 onClick={e => e.stopPropagation()}
