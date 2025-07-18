@@ -4,6 +4,7 @@ import records from "./routes/record.js";
 import UserRouter from "./routes/user.js";
 import contactUs from "./routes/contactus.js";
 import mealRoutes from "./routes/meal.js";
+import workoutRoutes from "./routes/workout.js"
 import './db/connection.js';
 import './db/mongoose-connection.js'
 
@@ -17,6 +18,7 @@ app.use("/record", records);
 app.use("/user", UserRouter);
 app.use("/contactus", contactUs);
 app.use("/meal", mealRoutes);
+app.use("/workout", workoutRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
