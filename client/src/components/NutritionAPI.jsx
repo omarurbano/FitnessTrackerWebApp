@@ -11,7 +11,8 @@ export default function NutritionAPI() {
     const APP_ID = "5c311b3a";
     const APP_KEY = "a1b49a0a6a84533092f2f6bbf7f9224e";
 
-    // Food group ID to name mapping - this is way off, i cant find docs on it, i emailed nutritionix support about it
+    // Food group ID to name mapping - this is way off, i cant find docs on it, i emailed nutritionix support about it 
+    //UPDATE: they responded and said they dont care 😞
     const foodGroupMap = {
         1: "Dairy and Egg Products",
         2: "Spices and Herbs",
@@ -65,6 +66,18 @@ export default function NutritionAPI() {
         } catch (err) {
             setError("Something went wrong. The input is likely empty or contains typos.");
             console.error(err);
+        }
+    };
+
+    const handleSaveMeal = async () => {
+        try {
+            const response = await axios.post('http://localhost:5050/meal/save', {
+                foods: results,
+            });
+            alert('Meal saved to database!');
+        } catch (error) {
+            console.error('Error saving meal:', error);
+            alert('Failed to save meal.');
         }
     };
 
@@ -135,6 +148,16 @@ export default function NutritionAPI() {
                 Submit
             </button>
             
+            {results.length > 0 && (
+                <button
+                    className="bg-green-600 text-white px-4 py-2 rounded mt-2 ml-2"
+                    onClick={handleSaveMeal}
+                >
+                    Save Meal
+                </button>
+            )}
+
+
             {error && <p className="text-red-500 mt-2">{error}</p>}
 
             <div key={renderKey} className="mt-4 flex gap-6 items-start">
