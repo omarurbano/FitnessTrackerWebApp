@@ -68,6 +68,18 @@ export default function NutritionAPI() {
         }
     };
 
+    const handleSaveMeal = async () => {
+        try {
+            const response = await axios.post('http://localhost:5050/meal/save', {
+                foods: results,
+            });
+            alert('Meal saved to database!');
+        } catch (error) {
+            console.error('Error saving meal:', error);
+            alert('Failed to save meal.');
+        }
+    };
+
     // get totals
     const totals = results.reduce(
         (acc, food) => {
@@ -135,6 +147,16 @@ export default function NutritionAPI() {
                 Submit
             </button>
             
+            {results.length > 0 && (
+                <button
+                    className="bg-green-600 text-white px-4 py-2 rounded mt-2 ml-2"
+                    onClick={handleSaveMeal}
+                >
+                    Save Meal
+                </button>
+            )}
+
+
             {error && <p className="text-red-500 mt-2">{error}</p>}
 
             <div key={renderKey} className="mt-4 flex gap-6 items-start">
