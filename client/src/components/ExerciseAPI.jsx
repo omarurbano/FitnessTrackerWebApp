@@ -60,6 +60,18 @@ export default function ExerciseAPI() {
         0
     );
 
+    const handleSaveWorkout = async () => {
+        try {
+            const response = await axios.post('http://localhost:5050/workout/save', {
+                exercises: results,
+            });
+            alert('Workout saved to database!');
+        } catch (error) {
+            console.error('Error saving workout:', error);
+            alert('Failed to save workout.');
+        }
+    };
+
     return (
         <div className="p-4 max-w-5xl mx-auto">
             <h2 className="text-2xl font-bold">Exercise Calorie Lookup</h2>
@@ -78,6 +90,15 @@ export default function ExerciseAPI() {
             >
                 Submit
             </button>
+
+            {results.length > 0 && (
+                <button
+                    className="bg-green-600 text-white px-4 py-2 rounded mt-2 ml-2"
+                    onClick={handleSaveWorkout}
+                >
+                    Save Workout
+                </button>
+            )}
 
             {error && <p className="text-red-600 mt-2">{error}</p>}
 

@@ -11,7 +11,8 @@ export default function NutritionAPI() {
     const APP_ID = "5c311b3a";
     const APP_KEY = "a1b49a0a6a84533092f2f6bbf7f9224e";
 
-    // Food group ID to name mapping - this is way off, i cant find docs on it, i emailed nutritionix support about it
+    // Food group ID to name mapping - this is way off, i cant find docs on it, i emailed nutritionix support about it 
+    //UPDATE: they responded and said they dont care 😞
     const foodGroupMap = {
         1: "Dairy and Egg Products",
         2: "Spices and Herbs",
