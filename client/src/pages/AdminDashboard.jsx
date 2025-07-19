@@ -1,5 +1,6 @@
 import { useState,useEffect } from "react";
 import CDetails from "../components/ContactUsDetails"
+import SearchUser from "../components/SearchUser";
 
 export default function AdminDash() {
     const [messages, setMessages] = useState(null);
@@ -44,8 +45,9 @@ export default function AdminDash() {
 
             </div>
 
-            <div className="mb-4 text-2xl px-10">
-                <p>Look Up User:</p>
+            <div className="mb-4 px-10">
+                <p className="mb-2 text-2xl">Look Up User:</p>
+                <SearchUser/>
             </div>
             
 
