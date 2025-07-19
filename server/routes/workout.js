@@ -14,4 +14,14 @@ router.post('/save', async (req, res) => {
     }
 });
 
+router.get('/all', async (req, res) => {
+    try {
+        const workouts = await Workout.find().sort({ createdAt: -1 });
+        res.status(200).json(workouts);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Failed to fetch workouts' });
+    }
+});
+
 export default router;
