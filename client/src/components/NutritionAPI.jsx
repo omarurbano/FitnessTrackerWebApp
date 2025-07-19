@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import NutritionLabel from "./NutritionLabel";
+import { useAuth } from "./useAuth";
 
 export default function NutritionAPI() {
+    const { isLoggedIn } = useAuth();
     const [query, setQuery] = useState("");
     const [results, setResults] = useState([]);
     const [error, setError] = useState("");
@@ -10,6 +12,14 @@ export default function NutritionAPI() {
 
     const APP_ID = "5c311b3a";
     const APP_KEY = "a1b49a0a6a84533092f2f6bbf7f9224e";
+
+    if (!isLoggedIn) {
+        return (
+            <div className="p-4 max-w-5xl mx-auto">
+                <p className="text-xl text-red-600">You must be logged in to use this feature!</p>
+            </div>
+        );
+    }
 
     // Food group ID to name mapping - this is way off, i cant find docs on it, i emailed nutritionix support about it 
     //UPDATE: they responded and said they dont care 😞

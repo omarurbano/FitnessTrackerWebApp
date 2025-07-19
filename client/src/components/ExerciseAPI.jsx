@@ -1,13 +1,23 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useAuth } from "./useAuth";
 
 export default function ExerciseAPI() {
+    const { isLoggedIn } = useAuth();
     const [query, setQuery] = useState("");
     const [results, setResults] = useState([]);
     const [error, setError] = useState("");
 
     const APP_ID = "5c311b3a";
     const APP_KEY = "a1b49a0a6a84533092f2f6bbf7f9224e";
+
+    if (!isLoggedIn) {
+        return (
+            <div className="p-4 max-w-5xl mx-auto">
+                <p className="text-xl text-red-600">You must be logged in to use this feature!</p>
+            </div>
+        );
+    }
 
     const handleSearch = async () => {
         try {

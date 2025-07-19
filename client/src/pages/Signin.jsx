@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import authService from "../services/authService";
+import { useAuth } from "../components/useAuth";
 
 const Signin = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const handleSignin = async (e) => {
         e.preventDefault();
         setError("");
 
         try {
-            const response = await authService.signin(email, password);
+            const response = await login(email, password);
+
             if (response.data.status === "SUCCESS" && response.data.validUser) {
-                localStorage.setItem("user", JSON.stringify(response.data.data));
                 navigate("/dashboard");
             } else {
                 setError(response.data.message);
@@ -39,4 +40,5 @@ const Signin = () => {
         </div>
     )
 };
+
 export default Signin;

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useAuth } from "./useAuth";
 
 export default function DailyDashboard() {
+    const { userEmail, isLoggedIn } = useAuth();
     const [dailyData, setDailyData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -12,8 +14,11 @@ export default function DailyDashboard() {
         new Date(date).toLocaleDateString("en-CA"); // e.g. "2025-07-18"
 
     useEffect(() => {
-        fetchDashboardData();
-    }, []);
+        if (isLoggedIn) {
+            fetchDashboardData();
+            console.log("Dashboard Email: ",userEmail)
+        }
+    }, [isLoggedIn]);
 
     const fetchDashboardData = async () => {
         try {
@@ -132,6 +137,14 @@ export default function DailyDashboard() {
         };
         return foodGroupMap[id] || "N/A";
     };
+
+    if (!isLoggedIn) {
+        return (
+            <div className="p-4 max-w-5xl mx-auto">
+                <p className="text-xl text-red-600">You must be logged in to use this feature!</p>
+            </div>
+        );
+    }
 
     if (loading) return <div>Loading...</div>;
 
