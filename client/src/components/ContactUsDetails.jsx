@@ -14,6 +14,10 @@ export default function CDetails({mssg, onDelete})
         setOpen(true);
     }
 
+    // Format the createOn
+    const formatLocalDate = (date) =>
+        new Date(date).toLocaleDateString("en-CA") + " | " + new Date(date).toLocaleTimeString("en-CA"); // e.g. "2025-07-18"
+
     // When a messaged is replied to, will send a delete request to mark it as resolved and will update page
     const responseModal = async (e) => {
         console.log(sendResponse);
@@ -38,7 +42,7 @@ export default function CDetails({mssg, onDelete})
         // Single message from contact us
         <div className="bg-white contact-us-deets border p-2 hover:bg-gray-200 focus:outline-2 focus:outline-offset-2 focus:outline-gray-200 active:bg-gray-300" onClick={OnMssgClick}>
             <h4><strong>From:</strong>{mssg.Name}</h4>
-            <p><strong>Recieved:</strong>{mssg.createdAt}</p>
+            <p><strong>Recieved:</strong>{formatLocalDate(mssg.createdAt)}</p>
             <p><strong>Type:</strong> {mssg.Option}</p>
             <p className='line-clamp-2'><strong>Message:</strong>{mssg.Description}</p>
             

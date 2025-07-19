@@ -60,7 +60,8 @@ export default function ContactUs() {
                                 placeholder="Butch Cougar"
                                 name="fullName"
                                 onChange={(e) => setName(e.target.value)}
-                                value={sName}/>
+                                value={sName}
+                                required/>
                         </div>
                     </div>
 
@@ -77,11 +78,12 @@ export default function ContactUs() {
                             <input 
                                 className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-800" 
                                 id="inline-full-name" 
-                                type="text"
+                                type="email"
                                 name="Email"
                                 placeholder="Email Address"
                                 onChange={(e) => setEmail(e.target.value)}
-                                value={sEmail}/>
+                                value={sEmail}
+                                required/>
                         </div>
                     </div>
 
@@ -119,6 +121,7 @@ export default function ContactUs() {
                             className="block w-4/6 h-32 p-2 text-left bg-gray-200 border-2 border-gray-200 rounded text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-800"
                             onChange={(e)=>setDescription(e.target.value)}
                             value={sDescription}
+                            required
                         ></textarea>
                     </div>
 
