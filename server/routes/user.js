@@ -2,6 +2,7 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import { client } from '../db/connection.js';
 import { sendVerificationEmail, verifyEmail } from '../controls/emailVerification.js';
+import { ObjectId } from "mongodb";
 
 const router = express.Router();
 const usersDb = client.db('users');
@@ -97,5 +98,15 @@ router.post('/verify-otp', async (req, res) => {
         res.status(400).json({ message: err.message });
     }
 });
+
+router.get('/:email', async (req, res) => {
+    let query = { email: req.params.email };
+    let result = await collection.findOne(query);
+    if(!result)
+    {
+        res.send("Not found").status(404);
+    }
+    res.send(result).status(200);
+})
 
 export default router;
