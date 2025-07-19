@@ -99,6 +99,7 @@ router.post('/verify-otp', async (req, res) => {
     }
 });
 
+//For admin user to lookup a user
 router.get('/:email', async (req, res) => {
     let query = { email: req.params.email };
     let result = await collection.findOne(query);
@@ -107,6 +108,38 @@ router.get('/:email', async (req, res) => {
         res.send("Not found").status(404);
     }
     res.send(result).status(200);
+})
+
+router.patch('/:email', async (req, res) => {
+    try {
+        const query = { email: req.params.email };
+        const {uName, uEmail, uPassword, password} = req.body;
+        const updates = {
+            $set: {}
+        };
+
+        const passwordMatch = await bcrypt.compare(password, uPassword);
+        if (passwordMatch)
+        {
+            updates.$set.name = uName;
+            updates.$set.password = password;
+            updates.$set.email = uEmail;
+        }
+        else
+        {
+            updates.$set.name = uName;
+            updates.$set.password = await bcrypt.hash(uPassword, 10);
+            updates.$set.email = uEmail;
+        }
+
+        
+        let result = await collection.updateOne(query, updates);
+        res.send(result).status(200);
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error updating record");
+    }
 })
 
 export default router;

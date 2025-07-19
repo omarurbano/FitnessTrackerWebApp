@@ -45,8 +45,8 @@ export default function AdminDash() {
 
             </div>
 
-            <div className="mb-4 text-2xl px-10">
-                <p className="mb-2">Look Up User:</p>
+            <div className="mb-4 px-10">
+                <p className="mb-2 text-2xl">Look Up User:</p>
                 <SearchUser/>
             </div>
             
