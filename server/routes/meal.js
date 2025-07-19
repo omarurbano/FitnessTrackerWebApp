@@ -14,4 +14,14 @@ router.post('/save', async (req, res) => {
     }
 });
 
+router.get('/all', async (req, res) => {
+    try {
+        const meals = await Meal.find().sort({ createdAt: -1 });
+        res.status(200).json(meals);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Failed to fetch meals' });
+    }
+});
+
 export default router;
