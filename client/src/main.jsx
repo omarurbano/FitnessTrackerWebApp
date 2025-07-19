@@ -14,7 +14,8 @@ import Homepage from "./pages/Homepage";
 import Navbar from "./components/Navbar";
 import ContactUs from "./pages/ContactUs";
 import AdminDash from "./pages/AdminDashboard";
-
+import DailyDashboard from './components/DailyDashboard';
+import Logout from "./pages/Signout";
 import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import VerifyOTP from "./pages/VerifyOTP";
@@ -33,10 +34,11 @@ const router = createBrowserRouter([
       { path: "/edit/:id", element: <Record /> },
       { path: "/contactus", element: <ContactUs /> },
       {path: "/admindash", element: <AdminDash/>},
-
+      {path: "/dashboard", element: <DailyDashboard />},
       {path: "/signup", element: <Signup />},
       {path: "/signin", element: <Signin />},
       {path: "/verify-otp", element: <VerifyOTP />},
+      {path: "/logout", element: <Logout />}
     ],
   },
 ]);
