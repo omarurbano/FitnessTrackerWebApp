@@ -113,7 +113,9 @@ router.get('/:email', async (req, res) => {
 router.patch('/:email', async (req, res) => {
     try {
         const query = { email: req.params.email };
-        const {uName, uEmail, uPassword, password} = req.body;
+        const {uName, uEmail, uPassword, usertype, password} = req.body;
+        console.log("This is usertype in patch route");
+        console.log(usertype);
         const updates = {
             $set: {}
         };
@@ -124,12 +126,15 @@ router.patch('/:email', async (req, res) => {
             updates.$set.name = uName;
             updates.$set.password = password;
             updates.$set.email = uEmail;
+            updates.$set.role = usertype;
+
         }
         else
         {
             updates.$set.name = uName;
             updates.$set.password = await bcrypt.hash(uPassword, 10);
             updates.$set.email = uEmail;
+            updates.$set.role = usertype;
         }
 
         
