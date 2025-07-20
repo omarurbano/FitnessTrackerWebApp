@@ -4,7 +4,7 @@ import NutritionLabel from "./NutritionLabel";
 import { useAuth } from "./useAuth";
 
 export default function NutritionAPI() {
-    const { isLoggedIn } = useAuth();
+    const { userEmail, isLoggedIn } = useAuth();
     const [query, setQuery] = useState("");
     const [results, setResults] = useState([]);
     const [error, setError] = useState("");
@@ -83,6 +83,7 @@ export default function NutritionAPI() {
         try {
             const response = await axios.post('http://localhost:5050/meal/save', {
                 foods: results,
+                user: userEmail,
             });
             alert('Meal saved to database!');
         } catch (error) {
