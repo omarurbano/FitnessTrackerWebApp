@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { useNavigate, Link} from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../components/useAuth";
 
 const Signin = () => {
@@ -8,7 +8,7 @@ const Signin = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
-    const { login } = useAuth();
+    const { login } = useOutletContext();
 
     const handleSignin = async (e) => {
         e.preventDefault();
@@ -18,7 +18,14 @@ const Signin = () => {
             const response = await login(email, password);
 
             if (response.data.status === "SUCCESS" && response.data.validUser) {
-                navigate("/dashboard");
+                const userData = response.data.data;
+                localStorage.setItem("user", JSON.stringify(userData));
+
+                if (response.data.data.role === "admin") {
+                    navigate("/admindash");
+                } else {
+                    navigate("/dashboard");
+                }
             } else {
                 setError(response.data.message);
             }
