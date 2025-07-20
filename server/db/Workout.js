@@ -13,6 +13,7 @@ const WorkoutSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    user: String,
 });
 
 export default mongoose.model('Workout', WorkoutSchema);

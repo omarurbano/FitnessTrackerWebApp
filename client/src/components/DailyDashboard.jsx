@@ -26,8 +26,8 @@ export default function DailyDashboard() {
             setError("");
 
             const [mealsResponse, workoutsResponse] = await Promise.all([
-                fetch("http://localhost:5050/meal/all"),
-                fetch("http://localhost:5050/workout/all"),
+                fetch(`http://localhost:5050/meal/all/${encodeURIComponent(userEmail)}`),
+                fetch(`http://localhost:5050/workout/all/${encodeURIComponent(userEmail)}`),
             ]);
 
             if (!mealsResponse.ok || !workoutsResponse.ok) {
