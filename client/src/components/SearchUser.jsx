@@ -11,6 +11,7 @@ export default function SearchUser()
     const[uName, setName] = useState("");
     const[uEmail, setEmail] = useState("");
     const[uPassword, setPassword] = useState("");
+    const[usertype, setUserType] = useState("");
 
     const fetchUser = async () =>{
         const response = await fetch("http://localhost:5050/user/" + encodeURIComponent(userEmail));
@@ -18,10 +19,11 @@ export default function SearchUser()
 
         if(response.ok)
         {  
-            const {name, email, password} = json;
+            const {name, email, password, role} = json;
             setUserInfo(json);
             setName(name);
             setEmail(email);
+            setUserType(role);
             console.log(json);
             setOpen(true);
         }
@@ -36,24 +38,11 @@ export default function SearchUser()
 
     // Handle updates made to user info in modal
     const handleModalClck = async (e) => {
-        if(uPassword == "")
-        {
-            const {password} = userinfo;
-            setPassword(password)
-        }
-        if(uEmail == "")
-        {
-            const {email} = userinfo;
-            setEmail(email)
-        }
-        if(uName == "")
-        {
-            const {name} = userinfo;
-            setName(name)
-        }
-
+        e.preventDefault();
+        
         const {password} = userinfo
-        const data = {uName, uEmail, uPassword, password};
+        const data = {uName, uEmail, uPassword, usertype, password};
+        console.log(data);
 
         const response = await fetch('http://localhost:5050/user/' + userEmail, {
             method: 'PATCH',
@@ -68,6 +57,7 @@ export default function SearchUser()
             setName("");
             setEmail("");
             setPassword("");
+            setUserType("");
             setOpen(false);
         }
         
@@ -103,47 +93,68 @@ export default function SearchUser()
             
             {/* Modal to edit user information */}
             <Modal open = {open} onClose={() => setOpen(false)}>
-                <div className='grid grid-cols-1 gap-2'>
+                <div className='grid grid-cols-1 gap-4'>
                     <div className='flex justify-center'> 
                         <header className='text-xl font-bold'> Edit User</header>
                     </div>
 
-                    <div className='flex justify-start'> 
-                        <p className='text-md font-bold underline'>{userinfo.name}:</p>
-                        <input 
-                            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-800"
-                            type="text"
-                            placeholder="Name"
-                            value={uName}
-                            onChange={(e) => setName(e.target.value)}
-                            />
-                    </div>
+                    <form onSubmit={handleModalClck} className='grid grid-cols-1 gap-4'>
+                        <div className='flex justify-start'> 
+                            <p className='text-md font-bold underline'>Current Name:</p>
+                            <input 
+                                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-800"
+                                type="text"
+                                placeholder="Name"
+                                value={uName}
+                                onChange={(e) => setName(e.target.value)}
+                                required
+                                />
+                        </div>
 
-                    <div className='flex justify-start'> 
-                        <p className='text-md font-bold underline'>{userinfo.email}:</p>
-                        <input 
-                            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-800"
-                            type="text"
-                            placeholder="Email"
-                            value={uEmail}
-                            onChange={(e) => setEmail(e.target.value)}
-                            />
-                    </div>
+                        <div className='flex justify-start'> 
+                            <p className='text-md font-bold underline'>Current Email:</p>
+                            <input 
+                                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-800"
+                                type="text"
+                                placeholder="Email"
+                                value={uEmail}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                                />
+                        </div>
 
-                    <div className='flex justify-start'> 
-                        <p className='text-md font-bold underline'>Password:</p>
-                        <input 
-                            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-800"
-                            type="text"
-                            placeholder="Type new password to reset"
-                            value={uPassword}
-                            onChange={(e) => setPassword(e.target.value)}
-                            />
-                    </div>
+                        <div className='flex justify-start'> 
+                            <p className='text-md font-bold underline'>Password:</p>
+                            <input 
+                                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-800"
+                                type="text"
+                                placeholder="Type new password to reset"
+                                value={uPassword}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                                />
+                        </div>
 
-                    <div className='flex justify-center'>
-                        <button onClick={handleModalClck} className='border bg-gray-200'>Update</button>
-                    </div>
+                        <div className='flex justify-start'> 
+                            <p className='text-md font-bold underline'>Current Role:</p>
+                            <input 
+                                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-800"
+                                type="text"
+                                placeholder="admin or user type"
+                                value={usertype}
+                                onChange={(e) => setUserType(e.target.value)}
+                                required
+                                />
+                        </div>
+
+                        <div className='flex justify-center'>
+                            <button 
+                                // onClick={handleModalClck} 
+                                className='border bg-gray-200'
+                                type='submit'>Update</button>
+                        </div>
+                    </form>
+
                 </div>
             </Modal>
         </div>

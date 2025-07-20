@@ -1,12 +1,17 @@
 import { useState,useEffect } from "react";
 import CDetails from "../components/ContactUsDetails"
 import SearchUser from "../components/SearchUser";
+import { useAuth } from "../components/useAuth";
 
 export default function AdminDash() {
     const [messages, setMessages] = useState(null);
+    const { userEmail, isLoggedIn } = useAuth();
+
+    const user = JSON.parse(localStorage.getItem("user"));
 
     useEffect(()=>{
-        const fetchMessages = async () =>{
+        if (isLoggedIn) {
+            const fetchMessages = async () =>{
             const response = await fetch('http://localhost:5050/contactus')
             const json = await response.json();
 
@@ -16,21 +21,27 @@ export default function AdminDash() {
                 console.log(json);
                 console.log(messages);
             }
-        }
-        fetchMessages();
-        console.log(messages);
-    }, [])
+            }
+            fetchMessages();
+            console.log(messages);
+    }
+    }, [isLoggedIn])
 
     const onDelete = (id) => {
         setMessages(prev => prev.filter(m => m._id !== id));
       }
 
+    if (!isLoggedIn) {
+    return (
+        <div className="p-4 max-w-5xl mx-auto">
+            <p className="text-xl text-red-600">Unauthorized user! Please sign in to access this page</p>
+        </div>
+    );
+    }
+
     return (
         <div className="container mx-15 px-15 shadow-xl">
-            <div className="mb-10 mt-2 text-3xl font-bold px-3">
-                <p>Welcome,</p>
-            </div>
-            
+
             <div className="mb-4 text-2xl px-10">
                 <p>Inquires from Users:</p>
             </div>
