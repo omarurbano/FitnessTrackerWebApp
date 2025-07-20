@@ -40,7 +40,7 @@ export default function CDetails({mssg, onDelete})
 
     return(
         // Single message from contact us
-        <div className="bg-white contact-us-deets border p-2 hover:bg-gray-200 focus:outline-2 focus:outline-offset-2 focus:outline-gray-200 active:bg-gray-300" onClick={OnMssgClick}>
+        <div className="bg-white contact-us-deets border rounded-md shadow-md p-2 hover:bg-gray-200 focus:outline-2 focus:outline-offset-2 focus:outline-gray-200 active:bg-gray-300" onClick={OnMssgClick}>
             <h4><strong>From:</strong>{mssg.Name}</h4>
             <p><strong>Recieved:</strong>{formatLocalDate(mssg.createdAt)}</p>
             <p><strong>Type:</strong> {mssg.Option}</p>
