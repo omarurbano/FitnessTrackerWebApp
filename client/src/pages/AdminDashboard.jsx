@@ -42,7 +42,7 @@ export default function AdminDash() {
     return (
         <div className="container mx-15 px-15 shadow-xl">
 
-            <div className="mb-4 text-2xl px-10">
+            <div className="mb-4 mt-10 text-2xl px-10">
                 <p>Inquires from Users:</p>
             </div>
             {/* Fetching all our contact us messages from the server */}
@@ -52,10 +52,11 @@ export default function AdminDash() {
                 ))}
             </div>
             {/* For Searching and Editing user accounts */}
-            <div className="mb-4 px-10">
+            <div className="mb-4 px-10 py-4">
                 <p className="mb-2 text-2xl">Look Up User:</p>
                 <SearchUser/>
             </div>
+
             
 
         </div>
