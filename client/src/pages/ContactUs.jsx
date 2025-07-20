@@ -36,7 +36,7 @@ export default function ContactUs() {
     }
 
     return (
-        <div className="container mx-15 px-15 shadow-xl">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div className="mb-10">
                 <p className="text-4xl text-green-800/100 text-center self-center font-bold">Contact Us</p>
             </div>

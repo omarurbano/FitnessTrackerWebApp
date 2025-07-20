@@ -142,39 +142,38 @@ export default function NutritionAPI() {
       
     console.log(nutritionData)
     return (
-        <div className="p-4 max-w-5xl mx-auto">
-            <h2 className="text-2xl font-bold">Nutrition Lookup</h2>
+        <div className="p-4 max-w-5xl mx-auto py-12">
+            <h2 className="text-2xl font-bold mb-4">Nutrition Lookup</h2>
 
-            <textarea
-                className="resize-y overflow-auto w-2/3 mt-4 flex gap-6 p-2 border rounded text-xl"
-                style={{ minHeight: "100px", whiteSpace: "pre-wrap" }}
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="e.g. 1 apple, 2 eggs, and a tbsp of yogurt"
-            />
-            <button
-                className="bg-blue-600 text-white px-4 py-2 rounded mt-2 flex gap-2 items-start"
-                onClick={handleSearch}
-            >
-                Submit
-            </button>
-            
-            {results.length > 0 && (
-                <button
-                    className="bg-green-600 text-white px-4 py-2 rounded mt-2 ml-2"
-                    onClick={handleSaveMeal}
-                >
-                    Save Meal
-                </button>
-            )}
+            <div className="flex gap-6 items-start">
+                <div className="w-2/3">
+                    <textarea
+                        className="resize-y overflow-auto w-full p-2 border rounded text-xl"
+                        style={{ minHeight: "100px", whiteSpace: "pre-wrap" }}
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        placeholder="e.g. 1 apple, 2 eggs, and a tbsp of yogurt"
+                    />
+                    <button
+                        className="bg-blue-600 text-white px-4 py-2 rounded mt-2 flex gap-2 items-start ml-auto"
+                        onClick={handleSearch}
+                    >
+                        Submit
+                    </button>
 
+                    {results.length > 0 && (
+                        <button
+                            className="bg-green-600 text-white px-4 py-2 rounded mt-2 flex gap-2 items-start ml-auto"
+                            onClick={handleSaveMeal}
+                        >
+                            Save Meal
+                        </button>
+                    )}
 
-            {error && <p className="text-red-500 mt-2">{error}</p>}
+                    {error && <p className="text-red-500 mt-2">{error}</p>}
 
-            <div key={renderKey} className="mt-4 flex gap-6 items-start">
-                {results.length > 0 && (
-                    <>
-                        <table className="border-collapse border w-2/3">
+                    {results.length > 0 && (
+                        <table className="border-collapse border w-full mt-4">
                             <thead>
                                 <tr className="bg-gray-100">
                                     <th className="border p-2">Image</th>
@@ -212,14 +211,17 @@ export default function NutritionAPI() {
                                 ))}
                             </tbody>
                         </table>
+                    )}
+                </div>
 
-                        <div className="w-1/3 -mt-40">
-                            <NutritionLabel data={nutritionData} />
-                        </div>
-                    </>
+                {results.length > 0 && (
+                    <div key={renderKey} className="w-1/3 sticky top-4">
+                        <NutritionLabel data={nutritionData} />
+                    </div>
                 )}
             </div>
         </div>
     );
+
       
 }

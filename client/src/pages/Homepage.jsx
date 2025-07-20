@@ -5,7 +5,7 @@ import FAQ from "../components/Faq";
 export default function Homepage() {
     return (
         
-      <div className="container mx-15 px-15 shadow-xl">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/*Container box with green background */}
         <div className="bg-green-800 py-16 mb-10 flex items-center">
             <img src="/src/assets/nutrition_phone.jpg" alt="phone" className="px-1 rounded-md shadow-md size-1/3 m-1 object-cover"/>
