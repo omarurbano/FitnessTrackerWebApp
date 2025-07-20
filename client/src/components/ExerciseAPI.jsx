@@ -84,63 +84,73 @@ export default function ExerciseAPI() {
     };
 
     return (
-        <div className="p-4 max-w-5xl mx-auto">
-            <h2 className="text-2xl font-bold">Exercise Calorie Lookup</h2>
+        <div className="p-4 max-w-5xl mx-auto py-12">
+            <h2 className="text-2xl font-bold mb-4">Exercise Calorie Lookup</h2>
 
-            <textarea
-                className="resize-y overflow-auto w-2/3 mt-4 flex gap-6 p-2 border rounded text-xl"
-                style={{ minHeight: "100px", whiteSpace: "pre-wrap" }}
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="e.g. 30 minutes of yoga, 2 minutes of jumping jacks, 5 mile jog"
-            />
+            <div className="flex gap-6 items-start">
+                <div className="w-2/3">
+                    <textarea
+                        className="resize-y overflow-auto w-full p-2 border rounded text-xl"
+                        style={{ minHeight: "100px", whiteSpace: "pre-wrap" }}
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        placeholder="e.g. 30 minutes of yoga, 2 minutes of jumping jacks, 5 mile jog"
+                    />
 
-            <button
-                className="bg-blue-600 text-white px-4 py-2 rounded mt-2 flex gap-2 items-start"
-                onClick={handleSearch}
-            >
-                Submit
-            </button>
+                    <button
+                        className="bg-blue-600 text-white px-4 py-2 rounded mt-2 flex gap-2 items-start ml-auto"
+                        onClick={handleSearch}
+                    >
+                        Submit
+                    </button>
 
-            {results.length > 0 && (
-                <button
-                    className="bg-green-600 text-white px-4 py-2 rounded mt-2 ml-2"
-                    onClick={handleSaveWorkout}
-                >
-                    Save Workout
-                </button>
-            )}
+                    {results.length > 0 && (
+                        <button
+                            className="bg-green-600 text-white px-4 py-2 rounded mt-2 flex gap-2 items-start ml-auto"
+                            onClick={handleSaveWorkout}
+                        >
+                            Save Workout
+                        </button>
+                    )}
 
-            {error && <p className="text-red-600 mt-2">{error}</p>}
+                    {error && <p className="text-red-600 mt-2">{error}</p>}
 
-            {results.length > 0 && (
-                <div className="mt-6 flex gap-6 items-start">
-                    <table className="border-collapse border w-2/3">
-                        <thead className="bg-gray-100">
-                            <tr>
-                                <th className="border p-2 text-left">Exercise</th>
-                                <th className="border p-2 text-left">MET</th>
-                                <th className="border p-2 text-left">Duration</th>
-                                <th className="border p-2 text-left">Calories Burned</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {results.map((exercise, i) => (
-                                <tr key={i} className="border-t">
-                                    <td className="p-2 capitalize">{exercise.name}</td>
-                                    <td className="p-2">{exercise.met ?? "N/A"}</td>
-                                    <td className="p-2">{exercise.duration_min} min</td>
-                                    <td className="p-2">{Math.round(exercise.nf_calories)} kcal</td>
+                    {results.length > 0 && (
+                        <table className="border-collapse border w-full mt-4">
+                            <thead className="bg-gray-100">
+                                <tr>
+                                    <th className="border p-2 text-left">Exercise</th>
+                                    <th className="border p-2 text-left">MET</th>
+                                    <th className="border p-2 text-left">Duration</th>
+                                    <th className="border p-2 text-left">Calories Burned</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-
-                    <div className="w-1/3 p-4 text-lg font-semibold -mt-40">
-                        Total Calories Burned: {Math.round(totalCalories)} kcal
-                    </div>
+                            </thead>
+                            <tbody>
+                                {results.map((exercise, i) => (
+                                    <tr key={i} className="border-t">
+                                        <td className="p-2 capitalize">{exercise.name}</td>
+                                        <td className="p-2">{exercise.met ?? "N/A"}</td>
+                                        <td className="p-2">{exercise.duration_min} min</td>
+                                        <td className="p-2">{Math.round(exercise.nf_calories)} kcal</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
                 </div>
-            )}
-        </div>    
-       );
+
+                {results.length > 0 && (
+                    <div className="w-1/3 sticky top-4">
+                        <div className="border rounded-lg shadow p-6 bg-white text-xl font-semibold text-center">
+                            <p className="text-gray-700">Total Calories Burned</p>
+                            <p className="text-3xl text-green-600 mt-2">
+                                {Math.round(totalCalories)} kcal
+                            </p>
+                        </div>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+
 }

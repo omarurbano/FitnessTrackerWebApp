@@ -18,7 +18,6 @@ export default function DailyDashboard() {
     useEffect(() => {
         if (isLoggedIn) {
             fetchDashboardData();
-            console.log("Dashboard Email: ",userEmail)
         }
     }, [isLoggedIn]);
 
@@ -148,66 +147,77 @@ export default function DailyDashboard() {
         );
     }
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) {
+        return (
+            <div className="p-4 max-w-5xl mx-auto">
+                <div className="text-lg">Loading...</div>
+            </div>
+        );
+    }
 
     if (selectedDate) {
         return (
-            <div style={{ padding: "20px", fontFamily: "Arial" }}>
+            <div className="p-4 max-w-5xl mx-auto py-12">
                 <button
                     onClick={handleBackToDashboard}
-                    style={{
-                        backgroundColor: "#007bff", color: "white", padding: "10px 20px",
-                        border: "none", borderRadius: "5px", cursor: "pointer", marginBottom: "20px"
-                    }}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg mb-5 transition-colors"
                 >
                     ← Back to Dashboard
                 </button>
 
-                <h1>Details for {selectedDate}</h1>
+                <h1 className="text-3xl font-bold mb-6">Details for {selectedDate}</h1>
 
                 {/* meals */}
-                <h2 style={{ color: "#28a745", marginTop: "30px" }}>Meals ({selectedDateData.meals.length})</h2>
+                <h2 className="text-2xl font-semibold text-green-600 mt-8 mb-4">
+                    Meals ({selectedDateData.meals.length})
+                </h2>
                 {selectedDateData.meals.length === 0 ? (
-                    <p>No meals recorded for this day.</p>
+                    <p className="text-gray-600">No meals recorded for this day.</p>
                 ) : (
                     selectedDateData.meals.map((meal, mealIndex) => (
-                        <div key={mealIndex} style={{ marginBottom: "30px", border: "1px solid #ddd", borderRadius: "8px", padding: "15px" }}>
-                            <h3>Meal {mealIndex + 1} - {new Date(meal.createdAt).toLocaleTimeString()}</h3>
-                            <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "10px" }}>
-                                <thead>
-                                    <tr style={{ backgroundColor: "#f8f9fa" }}>
-                                        <th style={thStyle}>Image</th>
-                                        <th style={thStyle}>Qty</th>
-                                        <th style={thStyle}>Unit</th>
-                                        <th style={thStyle}>Food</th>
-                                        <th style={thStyle}>Calories</th>
-                                        <th style={thStyle}>Weight (g)</th>
-                                        <th style={thStyle}>Food Group</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {(meal.foods || []).map((food, foodIndex) => (
-                                        <tr key={foodIndex}>
-                                            <td style={tdStyle}>
-                                                {food.photo?.thumb ? (
-                                                    <img
-                                                        src={food.photo.thumb}
-                                                        alt={food.food_name}
-                                                        style={{ width: "48px", height: "48px", objectFit: "cover" }}
-                                                    />
-                                                ) : "N/A"}
-                                            </td>
-                                            <td style={tdStyle}>{food.serving_qty ?? "N/A"}</td>
-                                            <td style={tdStyle}>{food.serving_unit ?? "N/A"}</td>
-                                            <td style={tdStyle}>{food.food_name}</td>
-                                            <td style={tdStyle}>{food.nf_calories ?? "N/A"}</td>
-                                            <td style={tdStyle}>{food.serving_weight_grams ?? "N/A"}</td>
-                                            <td style={tdStyle}>{getFoodGroupName(food.tags?.food_group)}</td>
+                        <div key={mealIndex} className="mb-8 border border-gray-300 rounded-lg p-4">
+                            <h3 className="text-xl font-semibold mb-3">
+                                Meal {mealIndex + 1} - {new Date(meal.createdAt).toLocaleTimeString()}
+                            </h3>
+                            <div className="overflow-x-auto">
+                                <table className="w-full border-collapse mt-3">
+                                    <thead>
+                                        <tr className="bg-gray-50">
+                                            <th className="border border-gray-300 p-2 text-left">Image</th>
+                                            <th className="border border-gray-300 p-2 text-left">Qty</th>
+                                            <th className="border border-gray-300 p-2 text-left">Unit</th>
+                                            <th className="border border-gray-300 p-2 text-left">Food</th>
+                                            <th className="border border-gray-300 p-2 text-left">Calories</th>
+                                            <th className="border border-gray-300 p-2 text-left">Weight (g)</th>
+                                            <th className="border border-gray-300 p-2 text-left">Food Group</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                            <p style={{ marginTop: "10px", fontWeight: "bold" }}>
+                                    </thead>
+                                    <tbody>
+                                        {(meal.foods || []).map((food, foodIndex) => (
+                                            <tr key={foodIndex} className="hover:bg-gray-50">
+                                                <td className="border border-gray-300 p-2">
+                                                    {food.photo?.thumb ? (
+                                                        <img
+                                                            src={food.photo.thumb}
+                                                            alt={food.food_name}
+                                                            className="w-12 h-12 object-cover rounded"
+                                                        />
+                                                    ) : (
+                                                        <span className="text-gray-400">N/A</span>
+                                                    )}
+                                                </td>
+                                                <td className="border border-gray-300 p-2">{food.serving_qty ?? "N/A"}</td>
+                                                <td className="border border-gray-300 p-2">{food.serving_unit ?? "N/A"}</td>
+                                                <td className="border border-gray-300 p-2">{food.food_name}</td>
+                                                <td className="border border-gray-300 p-2">{food.nf_calories ?? "N/A"}</td>
+                                                <td className="border border-gray-300 p-2">{food.serving_weight_grams ?? "N/A"}</td>
+                                                <td className="border border-gray-300 p-2">{getFoodGroupName(food.tags?.food_group)}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p className="mt-3 font-bold text-lg">
                                 Meal Total: {Math.round((meal.foods || []).reduce((sum, food) => sum + (food.nf_calories || 0), 0))} calories
                             </p>
                         </div>
@@ -215,43 +225,49 @@ export default function DailyDashboard() {
                 )}
 
                 {/* workouts */}
-                <h2 style={{ color: "#dc3545", marginTop: "30px" }}>Workouts ({selectedDateData.workouts.length})</h2>
+                <h2 className="text-2xl font-semibold text-red-600 mt-8 mb-4">
+                    Workouts ({selectedDateData.workouts.length})
+                </h2>
                 {selectedDateData.workouts.length === 0 ? (
-                    <p>No workouts recorded for this day.</p>
+                    <p className="text-gray-600">No workouts recorded for this day.</p>
                 ) : (
                     selectedDateData.workouts.map((workout, workoutIndex) => {
                         console.log("Rendering workout:", workout);
                         return (
-                            <div key={workoutIndex} style={{ marginBottom: "30px", border: "1px solid #ddd", borderRadius: "8px", padding: "15px" }}>
-                                <h3>Workout {workoutIndex + 1} - {new Date(workout.createdAt).toLocaleTimeString()}</h3>
+                            <div key={workoutIndex} className="mb-8 border border-gray-300 rounded-lg p-4">
+                                <h3 className="text-xl font-semibold mb-3">
+                                    Workout {workoutIndex + 1} - {new Date(workout.createdAt).toLocaleTimeString()}
+                                </h3>
                                 {workout.exercises && workout.exercises.length > 0 ? (
                                     <>
-                                        <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "10px" }}>
-                                            <thead>
-                                                <tr style={{ backgroundColor: "#f8f9fa" }}>
-                                                    <th style={thStyle}>Exercise</th>
-                                                    <th style={thStyle}>MET</th>
-                                                    <th style={thStyle}>Duration</th>
-                                                    <th style={thStyle}>Calories Burned</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {workout.exercises.map((exercise, exerciseIndex) => (
-                                                    <tr key={exerciseIndex}>
-                                                        <td style={tdStyle}>{exercise.name || "N/A"}</td>
-                                                        <td style={tdStyle}>{exercise.met ?? "N/A"}</td>
-                                                        <td style={tdStyle}>{exercise.duration_min || "N/A"} min</td>
-                                                        <td style={tdStyle}>{Math.round(exercise.nf_calories || 0)} kcal</td>
+                                        <div className="overflow-x-auto">
+                                            <table className="w-full border-collapse mt-3">
+                                                <thead>
+                                                    <tr className="bg-gray-50">
+                                                        <th className="border border-gray-300 p-2 text-left">Exercise</th>
+                                                        <th className="border border-gray-300 p-2 text-left">MET</th>
+                                                        <th className="border border-gray-300 p-2 text-left">Duration</th>
+                                                        <th className="border border-gray-300 p-2 text-left">Calories Burned</th>
                                                     </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                        <p style={{ marginTop: "10px", fontWeight: "bold" }}>
+                                                </thead>
+                                                <tbody>
+                                                    {workout.exercises.map((exercise, exerciseIndex) => (
+                                                        <tr key={exerciseIndex} className="hover:bg-gray-50">
+                                                            <td className="border border-gray-300 p-2">{exercise.name || "N/A"}</td>
+                                                            <td className="border border-gray-300 p-2">{exercise.met ?? "N/A"}</td>
+                                                            <td className="border border-gray-300 p-2">{exercise.duration_min || "N/A"} min</td>
+                                                            <td className="border border-gray-300 p-2">{Math.round(exercise.nf_calories || 0)} kcal</td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <p className="mt-3 font-bold text-lg">
                                             Workout Total: {Math.round((workout.exercises || []).reduce((sum, ex) => sum + (ex.nf_calories || 0), 0))} calories burned
                                         </p>
                                     </>
                                 ) : (
-                                    <p>No exercises found in this workout.</p>
+                                    <p className="text-gray-600">No exercises found in this workout.</p>
                                 )}
                             </div>
                         );
@@ -262,39 +278,33 @@ export default function DailyDashboard() {
     }
 
     return (
-        <div style={{ padding: "20px", fontFamily: "Arial" }}>
-            <h1>Daily Fitness Dashboard</h1>
+        <div className="p-4 max-w-5xl mx-auto py-12">
+            <h1 className="text-3xl font-bold mb-6">Daily Fitness Dashboard</h1>
 
-            {error && <div style={{ color: "red" }}>ERROR: {error}</div>}
+            {error && (
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    ERROR: {error}
+                </div>
+            )}
 
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                 {dailyData.length === 0 ? (
-                    <p>No daily data to display</p>
+                    <p className="text-gray-600 col-span-full">No daily data to display</p>
                 ) : (
                     dailyData.map((day, i) => (
                         <div
                             key={i}
                             onClick={() => handleDateClick(day.date)}
-                            style={{
-                                border: "1px solid #ccc", borderRadius: "10px", padding: "15px",
-                                width: "250px", boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-                                cursor: "pointer", transition: "transform 0.2s, box-shadow 0.2s",
-                            }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.transform = "translateY(-2px)";
-                                e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.15)";
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.transform = "translateY(0)";
-                                e.currentTarget.style.boxShadow = "0 2px 6px rgba(0,0,0,0.1)";
-                            }}
+                            className="border border-gray-300 rounded-lg p-4 shadow-md cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-lg bg-white"
                         >
-                            <h3 style={{ color: "#007bff", marginBottom: "10px" }}>{day.date}</h3>
-                            <p><strong>Calories Consumed:</strong> {Math.round(day.caloriesConsumed)}</p>
-                            <p><strong>Calories Burned:</strong> {Math.round(day.caloriesBurned)}</p>
-                            <p><strong>Meals:</strong> {day.mealCount}</p>
-                            <p><strong>Workouts:</strong> {day.workoutCount}</p>
-                            <p style={{ fontSize: "12px", color: "#666", marginTop: "10px", fontStyle: "italic" }}>
+                            <h3 className="text-xl font-semibold text-blue-600 mb-3">{day.date}</h3>
+                            <div className="space-y-2">
+                                <p><span className="font-semibold">Calories Consumed:</span> {Math.round(day.caloriesConsumed)}</p>
+                                <p><span className="font-semibold">Calories Burned:</span> {Math.round(day.caloriesBurned)}</p>
+                                <p><span className="font-semibold">Meals:</span> {day.mealCount}</p>
+                                <p><span className="font-semibold">Workouts:</span> {day.workoutCount}</p>
+                            </div>
+                            <p className="text-xs text-gray-500 mt-3 italic">
                                 Click to view details
                             </p>
                         </div>
@@ -302,11 +312,14 @@ export default function DailyDashboard() {
                 )}
             </div>
 
-            <br />
-            <button onClick={fetchDashboardData}>Refresh Data</button>
+            <div className="mt-8">
+                <button
+                    onClick={fetchDashboardData}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors"
+                >
+                    Refresh Data
+                </button>
+            </div>
         </div>
     );
 }
-
-const thStyle = { border: "1px solid #ddd", padding: "8px" };
-const tdStyle = { border: "1px solid #ddd", padding: "8px" };
