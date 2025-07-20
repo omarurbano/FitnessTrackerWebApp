@@ -13,6 +13,7 @@ import "./index.css";
 import Homepage from "./pages/Homepage";
 import Navbar from "./components/Navbar";
 import ContactUs from "./pages/ContactUs";
+import AboutUs from "./pages/AboutUs";
 import AdminDash from "./pages/AdminDashboard";
 import DailyDashboard from './components/DailyDashboard';
 import Logout from "./pages/Signout";
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
       { path: "/create", element: <Record /> },
       { path: "/edit/:id", element: <Record /> },
       { path: "/contactus", element: <ContactUs /> },
+      { path: "/aboutus", element: <AboutUs /> },
       {path: "/admindash", element: <AdminDash/>},
       {path: "/dashboard", element: <DailyDashboard />},
       {path: "/signup", element: <Signup />},

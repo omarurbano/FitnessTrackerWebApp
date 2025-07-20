@@ -39,7 +39,7 @@ router.post('/signup', async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = { name, email, password: hashedPassword,verified: false };
+        const newUser = { name, email, password: hashedPassword, verified: false, role: 'user' };
         await collection.insertOne(newUser);
         await sendVerificationEmail({ email });
 
@@ -80,7 +80,7 @@ router.post('/signin', async (req, res) => {
         res.json({
             status: "SUCCESS",
             message: "Signed in successfully!",
-            data: { name: user.name, email: user.email },
+            data: { name: user.name, email: user.email, role: user.role },
             validUser: true
         });
     } catch (err) {

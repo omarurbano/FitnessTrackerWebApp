@@ -3,7 +3,7 @@ import axios from "axios";
 import { useAuth } from "./useAuth";
 
 export default function ExerciseAPI() {
-    const { isLoggedIn } = useAuth();
+    const { userEmail, isLoggedIn } = useAuth();
     const [query, setQuery] = useState("");
     const [results, setResults] = useState([]);
     const [error, setError] = useState("");
@@ -74,6 +74,7 @@ export default function ExerciseAPI() {
         try {
             const response = await axios.post('http://localhost:5050/workout/save', {
                 exercises: results,
+                user: userEmail,
             });
             alert('Workout saved to database!');
         } catch (error) {

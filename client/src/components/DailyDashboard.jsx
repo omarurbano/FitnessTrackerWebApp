@@ -10,6 +10,8 @@ export default function DailyDashboard() {
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedDateData, setSelectedDateData] = useState({ meals: [], workouts: [] });
 
+    const user = JSON.parse(localStorage.getItem("user"));
+
     const formatLocalDate = (date) =>
         new Date(date).toLocaleDateString("en-CA"); // e.g. "2025-07-18"
 
@@ -26,8 +28,8 @@ export default function DailyDashboard() {
             setError("");
 
             const [mealsResponse, workoutsResponse] = await Promise.all([
-                fetch("http://localhost:5050/meal/all"),
-                fetch("http://localhost:5050/workout/all"),
+                fetch(`http://localhost:5050/meal/all/${encodeURIComponent(userEmail)}`),
+                fetch(`http://localhost:5050/workout/all/${encodeURIComponent(userEmail)}`),
             ]);
 
             if (!mealsResponse.ok || !workoutsResponse.ok) {

@@ -6,19 +6,20 @@ export const useAuth = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
-        const email = localStorage.getItem('userEmail');
-        if (email) {
-            setUser({ email });
-            setIsLoggedIn(true);
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
         }
     }, []);
 
     const login = async (email, password) => {
         try {
             const response = await authService.signin(email, password);
-            localStorage.setItem('userEmail', email);
-            setUser({ email });
-            setIsLoggedIn(true);
+            if (response.data.status === "SUCCESS" && response.data.validUser) {
+                const userData = response.data.data;
+                localStorage.setItem('user', JSON.stringify(userData));
+                setUser(userData);
+            }
             return response;
         } catch (error) {
             throw error;
@@ -42,15 +43,14 @@ export const useAuth = () => {
     };
 
     const logout = () => {
-        localStorage.removeItem('userEmail');
+        localStorage.removeItem('user');
         setUser(null);
-        setIsLoggedIn(false);
     };
 
     return {
         user,
         userEmail: user?.email,
-        isLoggedIn,
+        isLoggedIn: !!user,
         login,
         signup,
         verifyOTP,
