@@ -38,6 +38,6 @@ and to run server, make sure you are in the server directory then:
 node --env-file=config.env server
 
 ```
-* Go to localhost:5174/ to get to the homepage
+* Go to localhost:5173/ to get to the homepage
 
 
