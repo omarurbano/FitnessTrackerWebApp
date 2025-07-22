@@ -41,3 +41,5 @@ node --env-file=config.env server
 * Go to localhost:5173/ to get to the homepage
 
 
+# Demo Video
+[demo video](https://youtu.be/cZoeYeUgEGI)
