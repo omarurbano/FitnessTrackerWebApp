@@ -42,4 +42,4 @@ node --env-file=config.env server
 
 
 # Demo Video
-[demo video](https://youtu.be/cZoeYeUgEGI)
+[demo video](https://youtu.be/dI1ewj65QpI)
